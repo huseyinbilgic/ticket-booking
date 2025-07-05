@@ -1,0 +1,41 @@
+server:
+  port: 8083
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+jwt:
+  key: ENC(z3TJ+ttlygJqK7LFC699KrE4WQ0kafXO01WE1aToFugIAa8g6FXAsmlsvoyIgLZeaLjDtw5gNtUTjtFSoiSIV5VcaE5iX7Ap3PKGtzdqfq/DFw5Ne3f24WSLYRq7m3bEyAYb8jZ87aorxZnw5Dty2g==)
+  expiration: 604800000 # 7 days
+
+refresh-token:
+  expiration: 30 # 30 days
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: payment-service
+
+  liquibase:
+    change-log: classpath:liquibase/master.yml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/paymentdb
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.algofusion.common.dto.events"

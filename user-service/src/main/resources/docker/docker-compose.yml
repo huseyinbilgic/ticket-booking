@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:    
+  ticket-booking-redis:
+    image: redis:latest
+    container_name: ticket-booking-redis
+    ports:
+      - "6380:6379"
+    command: redis-server --requirepass algofusion-tb-redis
+    networks:
+      - my_network
+    restart: always
+
+networks:
+  my_network:
+    driver: bridge
