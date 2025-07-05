@@ -22,12 +22,6 @@ mvn spring-boot:run &
 PAYMENT_PID=$!
 cd ..
 
-echo "Starting notification-service..."
-cd notification-service
-mvn spring-boot:run &
-NOTIF_PID=$!
-cd ..
-
 echo "Starting api-gateway..."
 cd api-gateway
 mvn spring-boot:run &
